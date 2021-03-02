@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Form, message, Input, Icon } from 'antd';
 import Dropzone from 'react-dropzone';
+import Axios from 'axios';
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -42,6 +43,25 @@ function UploadVideoPage() {
     setCategories(event.currentTarget.value);
   };
 
+  const onDrop = (files) => {
+    let formData = new FormData();
+    const config = {
+      header: { 'content-type': 'multipart/form-data' },
+    };
+
+    /* console.log(files);  콘솔로그 찍어보면 파일에 대한 정보를 가지고오는걸 볼수있다. */
+    formData.append('file', files[0]); // files 중에서 0번째 정보를 axios를 통해 /api/video/uploadfiles 로 보낸다.
+
+    Axios.post('/api/video/uploadfiles', formData, config).then((response) => {
+      if (response.data.success) {
+        // 성공시 할것 적기
+        console.log(response.data);
+      } else {
+        alert('비디오 업로드를 실패했습니다.');
+      }
+    });
+  };
+
   const onSubmit = () => {};
 
   return (
@@ -52,7 +72,13 @@ function UploadVideoPage() {
 
       <Form onSubmit={onSubmit}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Dropzone multiple={false} maxSize={800000000}>
+          {/* multiple 은 한번에 파일을 여러개 올릴건지 설정하는것이다. maxSize 를 통해서 최대파일크기를 지정할수있다.*/}
+          <Dropzone
+            accept="video/*"
+            onDrop={onDrop}
+            multiple={false}
+            maxSize={800000000}
+          >
             {({ getRootProps, getInputProps }) => (
               <div
                 style={{
