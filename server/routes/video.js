@@ -63,6 +63,17 @@ router.post('/uploadVideo', (req, res) => {
   });
 });
 
+/* 비디오 정보들을 몽고DB에서 가져온다. */
+router.get('/getVideos', (req, res) => {
+  // 비디오를 DB에서 가져와서 클라이언트에 보낸다.
+  Video.find() // find를 쓰면, 비디오 컬렉션안의 모든 비디오를 가져온다.
+    .populate('writer') //writer는 user모델을 참조하는 Schema.Types.ObjectId라고했기때문에, populate를 써야 writer의 모든 정보를 가져올 수 있다. 쓰지않으면 writer의 _id만 가져온다.;
+    .exec((err, videos) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, videos }); // 성공하면, videos를 보낸다.
+    });
+});
+
 /* 썸네일 생성하고 비디오 러닝타임도 가져오기 */
 router.post('/thumbnail', (req, res) => {
   let thumbsFilePath = ''; //썸네일 path
