@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const { Video } = require('../models/Video');
+const { Video } = require('../models/Video');
 
 const { auth } = require('../middleware/auth');
 const multer = require('multer'); // multer이용해서 파일 저장하기
@@ -50,6 +50,16 @@ router.post('/uploadfiles', (req, res) => {
       filePath: res.req.file.path,
       fileName: res.req.file.filename,
     });
+  });
+});
+
+/* 비디오 정보들을 몽고DB에 저장한다. */
+router.post('/uploadVideo', (req, res) => {
+  const video = new Video(req.body); // 클라이언트에서 보낸 모든 정보 (onSubmit에서 보냈던 variables)는 req.body에 저장된다.
+  // 몽고DB에 저장
+  video.save((err, doc) => {
+    if (err) return res.json({ success: false, err }); // 에러발생시
+    res.status(200).json({ success: true }); // 성공시
   });
 });
 
