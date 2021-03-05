@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { List, Avatar, Row, Col } from 'antd';
 import Axios from 'axios';
+import SideVideo from './Sections/SideVideo';
+
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId; // 주소에있는 videoId 를 가져온다. App.js 에서 /:videoId 적었기때문에 가져올수있다.  /: 뒤가 parameter로 전해질 props 이름이다.
   const variable = { videoId: videoId };
@@ -64,7 +66,7 @@ function VideoDetailPage(props) {
         </div>
       </Col>
       <Col lg={6} xs={24}>
-        SideVideos
+        <SideVideo />
       </Col>
     </Row>
   );
