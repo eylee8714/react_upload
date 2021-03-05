@@ -63,6 +63,16 @@ router.post('/uploadVideo', (req, res) => {
   });
 });
 
+/* 비디오 상세페이지에 넣을 각 비디오정보를 몽고DB에서 가져온다. */
+router.post('/getVideoDetail', (req, res) => {
+  Video.findOne({ _id: req.body.videoId }) //클라이언트에서 보낸 videoId를 이용해서 _id를 mongoDB에서 찾겠다.
+    .populate('writer') // populate로 user모델을 참조 하는 모든정보를 불러온다.
+    .exec((err, videoDetail) => {
+      if (err) return res.status(400).send(err);
+      return res.status(200).json({ success: true, videoDetail }); //videoDetail 정보를 클라이언트로 보낸다.
+    });
+});
+
 /* 비디오 정보들을 몽고DB에서 가져온다. */
 router.get('/getVideos', (req, res) => {
   // 비디오를 DB에서 가져와서 클라이언트에 보낸다.

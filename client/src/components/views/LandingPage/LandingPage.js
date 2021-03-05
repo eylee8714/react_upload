@@ -30,6 +30,7 @@ function LandingPage() {
     return (
       <Col lg={6} md={8} xs={24}>
         <div style={{ position: 'relative' }}>
+          {/* 비디오디테일로가는 링크를 만든다. */}
           <a href={`/video/${video._id}`}>
             <img
               style={{ width: '100%' }}

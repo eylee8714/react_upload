@@ -8,6 +8,7 @@ import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import NavBar from './views/NavBar/NavBar';
 import Footer from './views/Footer/Footer';
 import VideoUploadPage from './views/VideoUploadPage/VideoUploadPage';
+import VideoDetailPage from './views/VideoDetailPage/VideoDetailPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -26,6 +27,11 @@ function App() {
             exact
             path="/video/upload"
             component={Auth(VideoUploadPage, true)} // 로그인한 사람만 들어갈수있도록 true해주었다.
+          />
+          <Route
+            exact
+            path="/video/:videoId"
+            component={Auth(VideoDetailPage, null)} // 아무나 들어갈수있도록 null 해주었다.
           />
         </Switch>
       </div>
