@@ -28,7 +28,7 @@ function LandingPage() {
     var seconds = Math.floor(video.duration - minutes * 60);
 
     return (
-      <Col lg={6} md={8} xs={24}>
+      <Col lg={6} md={8} xs={24} key={index}>
         <div style={{ position: 'relative' }}>
           {/* 비디오디테일로가는 링크를 만든다. */}
           <a href={`/video/${video._id}`}>
