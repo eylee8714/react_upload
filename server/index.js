@@ -37,7 +37,8 @@ app.use(cookieParser());
 
 app.use('/api/users', require('./routes/users'));
 app.use('/api/video', require('./routes/video')); // /api/video 를 주소에 붙여서 routes>video.js 파일로 간다.
-app.use('/api/subscribe', require('./routes/subscribe')); // /api/video 를 주소에 붙여서 routes>video.js 파일로 간다.
+app.use('/api/subscribe', require('./routes/subscribe')); // /api/subscribe 를 주소에 붙여서 routes>subscribe.js 파일로 간다.
+app.use('/api/comment', require('./routes/comment')); // /api/comment 를 주소에 붙여서 routes>comment.js 파일로 간다.
 
 //use this to show the image you have in node js server to client (react js)
 //client에서  back서버에 있는 static한 파일들을 (이미지, css 파일, javascript 파일) 처리하기위해 uploads 폴더 등록해준다.

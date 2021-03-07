@@ -3,6 +3,7 @@ import { List, Avatar, Row, Col } from 'antd';
 import Axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
+import Comment from './Sections/Comment';
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId; // 주소에있는 videoId 를 가져온다. App.js 에서 /:videoId 적었기때문에 가져올수있다.  /: 뒤가 parameter로 전해질 props 이름이다.
@@ -69,12 +70,8 @@ function VideoDetailPage(props) {
               />
               <div></div>
             </List.Item>
-
-            {/* <Comments
-            CommentLists={CommentLists}
-            postId={VideoDetail._id}
-            refreshFunction={updateComment}
-          /> */}
+            {/* 댓글 */}
+            <Comment postId={videoId} />
           </div>
         </Col>
         <Col lg={6} xs={24}>
