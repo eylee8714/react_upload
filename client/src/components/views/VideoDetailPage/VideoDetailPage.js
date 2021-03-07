@@ -23,6 +23,16 @@ function VideoDetailPage(props) {
   }, []);
   if (VideoDetail.writer) {
     // VideoDetail.writer 가 렌더 되기 전에 오류가나서, 이렇게 넣어주었다.
+
+    //subscribeButton 로그인한 유저와 글쓴 유저가 다르면 보이도록하기
+    const subscribeButton = VideoDetail.writer._id !==
+      localStorage.getItem('userId') && (
+      <Subscribe
+        userTo={VideoDetail.writer._id}
+        userFrom={localStorage.getItem('userId')}
+      />
+    );
+
     return (
       <Row>
         <Col lg={18} xs={24}>
@@ -41,10 +51,11 @@ function VideoDetailPage(props) {
             {/* userFrom으로 props이용해서 로그인한 유저정보를 Subscribe 컴포넌트에 보내준다. */}
             <List.Item
               actions={[
-                <Subscribe
-                  userTo={VideoDetail.writer._id}
-                  userFrom={localStorage.getItem('userId')}
-                />,
+                subscribeButton, //subscribeButton 로그인한 유저와 글쓴 유저가 다르면 보이도록해주었다.
+                // <Subscribe
+                //   userTo={VideoDetail.writer._id}
+                //   userFrom={localStorage.getItem('userId')}
+                // />,
               ]}
             >
               <List.Item.Meta
