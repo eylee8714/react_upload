@@ -42,7 +42,7 @@ function VideoDetailPage(props) {
             <List.Item
               actions={[
                 <Subscribe
-                  userTo={videoId}
+                  userTo={VideoDetail.writer._id}
                   userFrom={localStorage.getItem('userId')}
                 />,
               ]}
