@@ -4,6 +4,7 @@ import Axios from 'axios';
 import { useSelector } from 'react-redux';
 // import LikeDislikes from './LikeDislikes';
 const { TextArea } = Input;
+
 function SingleComment(props) {
   const user = useSelector((state) => state.user);
   const [CommentValue, setCommentValue] = useState('');
@@ -19,22 +20,23 @@ function SingleComment(props) {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    // const variables = {
-    //   writer: user.userData._id,
-    //   postId: props.postId,
-    //   responseTo: props.comment._id,
-    //   content: CommentValue,
-    // };
+    const variables = {
+      content: CommentValue,
+      writer: user.userData._id,
+      postId: props.postId,
+      responseTo: props.comment._id,
+    };
 
-    // Axios.post('/api/comment/saveComment', variables).then((response) => {
-    //   if (response.data.success) {
-    //     setCommentValue('');
-    //     setOpenReply(!OpenReply);
-    //     props.refreshFunction(response.data.result);
-    //   } else {
-    //     alert('Failed to save Comment');
-    //   }
-    // });
+    Axios.post('/api/comment/saveComment', variables).then((response) => {
+      if (response.data.success) {
+        console.log(response.data.result);
+        setCommentValue(''); // 쓴 댓글 없애기
+        // setOpenReply(!OpenReply);
+        props.refreshFunction(response.data.result);
+      } else {
+        alert('Failed to save Comment');
+      }
+    });
   };
 
   const actions = [

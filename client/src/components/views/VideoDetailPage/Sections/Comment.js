@@ -26,6 +26,8 @@ function Comments(props) {
 
     axios.post('/api/comment/saveComment', variables).then((response) => {
       if (response.data.success) {
+        setComment(''); // 쓴 댓글 없애기
+        props.refreshFunction(response.data.result);
       } else {
         alert('댓글을 저장하지 못했습니다.');
       }
@@ -41,9 +43,18 @@ function Comments(props) {
       {/* Comment Lists  */}
       {/* VideoDetailPage에서 받아온 commentList들을 SingleComment에 map으로 돌린다. */}
       {props.commentLists &&
-        props.commentLists.map((comment, index) => (
-          <SingleComment comment={comment} postId={videoId} key={index} />
-        ))}
+        props.commentLists.map(
+          (comment, index) =>
+            // 몽고db에서 가져왔을때 responseTo가 없는 댓글들만 나타내기
+            !comment.responseTo && (
+              <SingleComment
+                refreshFunction={props.refreshFunction} // 새댓글이 나타나도록 refreshFunction 을 전달해준다.
+                comment={comment}
+                postId={videoId}
+                key={index}
+              />
+            )
+        )}
 
       {/* Root Comment Form */}
       <form style={{ display: 'flex' }} onSubmit={onSubmit}>

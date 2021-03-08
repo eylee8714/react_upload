@@ -34,6 +34,11 @@ function VideoDetailPage(props) {
         console.log(Comments);
       });
   }, []);
+
+  const refreshFunction = (newComment) => {
+    setComments(Comments.concat(newComment)); // newComment가 concat이 되면서, 새로운 댓글이 나타난다.
+  };
+
   if (VideoDetail.writer) {
     // VideoDetail.writer 가 렌더 되기 전에 오류가나서, 이렇게 넣어주었다.
 
@@ -83,7 +88,11 @@ function VideoDetailPage(props) {
             </List.Item>
             {/* 댓글 */}
             {/* 가져온 코멘트들을 commentLists 에 넣어서 컴포넌트에 전달한다. */}
-            <Comment commentLists={Comments} postId={videoId} />
+            <Comment
+              refreshFunction={refreshFunction}
+              commentLists={Comments}
+              postId={videoId}
+            />
           </div>
         </Col>
         <Col lg={6} xs={24}>
