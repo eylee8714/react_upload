@@ -11,6 +11,7 @@ function VideoDetailPage(props) {
 
   //서버에서 데이터 받아오기
   const [VideoDetail, setVideoDetail] = useState([]);
+  const [Comments, setComments] = useState([]);
 
   useEffect(() => {
     Axios.post('/api/video/getVideoDetail', variable) //
@@ -20,6 +21,17 @@ function VideoDetailPage(props) {
         } else {
           alert('비디오 정보 가져오기를 실패했습니다.');
         }
+      });
+
+    Axios.post('/api/comment/getComments', variable) //
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data.comments);
+          setComments(response.data.comments); // 가져온 코멘트들을 Comments에 넣어준다.
+        } else {
+          alert('코멘트 정보 가져오기를 실패했습니다.');
+        }
+        console.log(Comments);
       });
   }, []);
   if (VideoDetail.writer) {
@@ -46,7 +58,6 @@ function VideoDetailPage(props) {
               src={`http://localhost:5000/${VideoDetail.filePath}`}
               controls
             ></video>
-
             {/* antd의 규칙때문에 [<Subscribe/>] 대괄호를 붙여주었다. */}
             {/* userTo로 props이용해서 작성자 정보를 Subscribe 컴포넌트에 보내준다. */}
             {/* userFrom으로 props이용해서 로그인한 유저정보를 Subscribe 컴포넌트에 보내준다. */}
@@ -71,7 +82,8 @@ function VideoDetailPage(props) {
               <div></div>
             </List.Item>
             {/* 댓글 */}
-            <Comment postId={videoId} />
+            {/* 가져온 코멘트들을 commentLists 에 넣어서 컴포넌트에 전달한다. */}
+            <Comment commentLists={Comments} postId={videoId} />
           </div>
         </Col>
         <Col lg={6} xs={24}>

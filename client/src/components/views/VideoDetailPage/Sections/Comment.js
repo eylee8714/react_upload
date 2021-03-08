@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Input } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux'; // 리덕스의 store에서 userId 가져오기위해 적어주었다.
+import SingleComment from './SingleComment';
 const { TextArea } = Input;
 
 function Comments(props) {
@@ -25,7 +26,6 @@ function Comments(props) {
 
     axios.post('/api/comment/saveComment', variables).then((response) => {
       if (response.data.success) {
-        console.log(response.data.result);
       } else {
         alert('댓글을 저장하지 못했습니다.');
       }
@@ -37,8 +37,13 @@ function Comments(props) {
       <br />
       <p> replies</p>
       <hr />
+
       {/* Comment Lists  */}
-      {/* {console.log(props.CommentLists)} */}
+      {/* VideoDetailPage에서 받아온 commentList들을 SingleComment에 map으로 돌린다. */}
+      {props.commentLists &&
+        props.commentLists.map((comment, index) => (
+          <SingleComment comment={comment} postId={videoId} key={index} />
+        ))}
 
       {/* Root Comment Form */}
       <form style={{ display: 'flex' }} onSubmit={onSubmit}>
