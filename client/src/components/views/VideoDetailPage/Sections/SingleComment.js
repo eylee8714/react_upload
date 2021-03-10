@@ -31,7 +31,7 @@ function SingleComment(props) {
       if (response.data.success) {
         console.log(response.data.result);
         setCommentValue(''); // 쓴 댓글 없애기
-        // setOpenReply(!OpenReply);
+        setOpenReply(false); // 댓글쓰고나면 댓글창 안보이게하기
         props.refreshFunction(response.data.result);
       } else {
         alert('Failed to save Comment');

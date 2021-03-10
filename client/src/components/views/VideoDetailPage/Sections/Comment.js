@@ -3,6 +3,7 @@ import { Button, Input } from 'antd';
 import axios from 'axios';
 import { useSelector } from 'react-redux'; // 리덕스의 store에서 userId 가져오기위해 적어주었다.
 import SingleComment from './SingleComment';
+import ReplyComment from './ReplyComment';
 const { TextArea } = Input;
 
 function Comments(props) {
@@ -47,12 +48,19 @@ function Comments(props) {
           (comment, index) =>
             // 몽고db에서 가져왔을때 responseTo가 없는 댓글들만 나타내기
             !comment.responseTo && (
-              <SingleComment
-                refreshFunction={props.refreshFunction} // 새댓글이 나타나도록 refreshFunction 을 전달해준다.
-                comment={comment}
-                postId={videoId}
-                key={index}
-              />
+              <React.Fragment key={index}>
+                <SingleComment
+                  refreshFunction={props.refreshFunction} // 새댓글이 나타나도록 refreshFunction 을 전달해준다.
+                  comment={comment}
+                  postId={videoId}
+                />
+                <ReplyComment
+                  parentCommentId={comment._id}
+                  commentLists={props.commentLists}
+                  refreshFunction={props.refreshFunction}
+                  postId={videoId}
+                />
+              </React.Fragment>
             )
         )}
 
