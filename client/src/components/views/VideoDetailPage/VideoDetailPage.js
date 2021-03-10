@@ -4,6 +4,7 @@ import Axios from 'axios';
 import SideVideo from './Sections/SideVideo';
 import Subscribe from './Sections/Subscribe';
 import Comment from './Sections/Comment';
+import LikeDislikes from './Sections/LikeDislikes';
 
 function VideoDetailPage(props) {
   const videoId = props.match.params.videoId; // 주소에있는 videoId 를 가져온다. App.js 에서 /:videoId 적었기때문에 가져올수있다.  /: 뒤가 parameter로 전해질 props 이름이다.
@@ -68,11 +69,11 @@ function VideoDetailPage(props) {
             {/* userFrom으로 props이용해서 로그인한 유저정보를 Subscribe 컴포넌트에 보내준다. */}
             <List.Item
               actions={[
+                <LikeDislikes // 좋아요, 싫어요 넣어준다.
+                  userId={localStorage.getItem('userId')}
+                  videoId={videoId}
+                />,
                 subscribeButton, //subscribeButton 로그인한 유저와 글쓴 유저가 다르면 보이도록해주었다.
-                // <Subscribe
-                //   userTo={VideoDetail.writer._id}
-                //   userFrom={localStorage.getItem('userId')}
-                // />,
               ]}
             >
               <List.Item.Meta
