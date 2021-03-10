@@ -10,6 +10,7 @@ import Footer from './views/Footer/Footer';
 import VideoUploadPage from './views/VideoUploadPage/VideoUploadPage';
 import VideoDetailPage from './views/VideoDetailPage/VideoDetailPage';
 import SubscriptionPage from './views/SubscriptionPage/SubscriptionPage';
+import UploadProductPage from './views/UploadProductPage/UploadProductPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -38,6 +39,11 @@ function App() {
             exact
             path="/subscription"
             component={Auth(SubscriptionPage, null)} // 아무나 들어갈수있도록 null 해주었다.
+          />
+          <Route
+            exact
+            path="/img/upload"
+            component={Auth(UploadProductPage, true)} // 로그인 한 사람만 들어갈수있도록 true 해주었다.
           />
         </Switch>
       </div>

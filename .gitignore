@@ -6,6 +6,7 @@ dev.js
 
 uploads/thumbnails/*
 uploads/*.mp4
+uploads_img/*
 
 .DS_Store
 
