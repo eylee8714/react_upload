@@ -49,8 +49,14 @@ router.post('/', (req, res) => {
 
 /* product collection에 들어있는 모든 상품정보를 가져오기*/
 router.post('/products', (req, res) => {
+  // parseInt는 string인 경우 숫자로 바꿔준다. (형변환)
+  let limit = req.body.limit ? parseInt(req.body.limit) : 20; //req.body.limit 이 있다면? parseInt해서보내고 없으면 원하는숫자(20)을보낸다.
+  let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+
   Product.find()
     .populate('writer')
+    .skip(skip) // mongoDB에 skip 을 지정한다.
+    .limit(limit) // mongoDB에 limit 을 지정한다.
     .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
       return res.status(200).json({ success: true, productInfo });

@@ -7,16 +7,30 @@ import ImageSlider from '../../utils/ImageSlider';
 const { Meta } = Card;
 function ProductListPage() {
   const [Products, setProducts] = useState([]);
+
+  // LIMIT과 SKIP을 위한 state 만들기
+  const [Skip, setSkip] = useState(0); // 0부터 가져올거라서 스킵 0으로 지정한다.
+  const [Limit, setLimit] = useState(8); // limit은 8을 지정했다.
+
   useEffect(() => {
-    axios.post('/api/product/products').then((response) => {
-      if (response.data.success) {
-        console.log(response.data);
-        setProducts(response.data.productInfo);
-      } else {
-        alert('상품들을 가져오는데 실패했습니다.');
-      }
-    });
+    // body를 이용해서 skip, limit 을 줘서 조건에 맞는 데이터 가져오도록 한다.
+    let body = {
+      skip: Skip,
+      limit: Limit,
+    };
+    axios
+      .post('/api/product/products', body) //
+      .then((response) => {
+        if (response.data.success) {
+          console.log(response.data);
+          setProducts(response.data.productInfo);
+        } else {
+          alert('상품들을 가져오는데 실패했습니다.');
+        }
+      });
   }, []);
+
+  const loadMoreHandler = () => {};
 
   const renderCards = Products.map((product, index) => {
     return (
@@ -43,7 +57,7 @@ function ProductListPage() {
       {/* Search  */}
       <Row gutter={[16, 16]}>{renderCards}</Row>
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <button>더보기</button>
+        <button onClick={loadMoreHandler}>더보기</button>
       </div>
     </div>
   );
