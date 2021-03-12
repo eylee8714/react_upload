@@ -59,7 +59,9 @@ router.post('/products', (req, res) => {
     .limit(limit) // mongoDB에 limit 을 지정한다.
     .exec((err, productInfo) => {
       if (err) return res.status(400).json({ success: false, err });
-      return res.status(200).json({ success: true, productInfo });
+      return res
+        .status(200)
+        .json({ success: true, productInfo, postSize: productInfo.length }); // 데이터의 총갯수가되면 더보기버튼 없애기위해, postSize를 더해서 전송해준다.
     });
 });
 
