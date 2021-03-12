@@ -11,6 +11,7 @@ import VideoUploadPage from './views/VideoUploadPage/VideoUploadPage';
 import VideoDetailPage from './views/VideoDetailPage/VideoDetailPage';
 import SubscriptionPage from './views/SubscriptionPage/SubscriptionPage';
 import UploadProductPage from './views/UploadProductPage/UploadProductPage';
+import ProductListPage from './views/ProductListPage/ProductListPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -44,6 +45,11 @@ function App() {
             exact
             path="/product/upload"
             component={Auth(UploadProductPage, true)} // 로그인 한 사람만 들어갈수있도록 true 해주었다.
+          />
+          <Route
+            exact
+            path="/product/list"
+            component={Auth(ProductListPage, true)} // 로그인 한 사람만 들어갈수있도록 true 해주었다.
           />
         </Switch>
       </div>

@@ -65,7 +65,7 @@ function UploadProductPage(props) {
       if (response.data.success) {
         alert('상품 업로드에 성공했습니다.');
         //랜딩페이지로 이동
-        props.history.push('/');
+        props.history.push('/productlist');
       } else {
         alert('상품 업로드에 실패했습니다.');
       }
