@@ -42,7 +42,7 @@ function App() {
           />
           <Route
             exact
-            path="/img/upload"
+            path="/product/upload"
             component={Auth(UploadProductPage, true)} // 로그인 한 사람만 들어갈수있도록 true 해주었다.
           />
         </Switch>
