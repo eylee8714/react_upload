@@ -21,7 +21,7 @@ function FileUpload(props) {
         // 파일저장 성공시
         console.log(response.data);
         setImages([...Images, response.data.filePath]); // 배열에다 추가를 해야되기떄문에 원래있던것 ... 적어주고 추가해준다.
-        // props.refreshFunction([...Images, response.data.filePath]);
+        props.refreshFunction([...Images, response.data.filePath]); // 부모컴포넌트에 이미지 업로드 내용 전달한다.
       } else {
         //파일저장 실패시
         alert('파일을 저장하는데 실패했습니다.');
@@ -38,7 +38,7 @@ function FileUpload(props) {
     newImages.splice(currentIndex, 1); //splice를 써서, 현재인덱스가 0이면, 현재인덱스 부터 1개를 지운다는 뜻이다. 현재인덱스가 1이면 현재인덱스부터 1개를 지운다.
 
     setImages(newImages); //새로운 스테이트 넣어주기
-    props.refreshFunction(newImages);
+    props.refreshFunction(newImages); // 부모컴포넌트에 이미지 업로드 내용 전달한다.
   };
 
   return (
