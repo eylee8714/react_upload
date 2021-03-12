@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { Icon, Col, Card, Row } from 'antd';
 import { useState } from 'react';
+import ImageSlider from '../../utils/ImageSlider';
 const { Meta } = Card;
 function ProductListPage() {
   const [Products, setProducts] = useState([]);
@@ -21,15 +22,8 @@ function ProductListPage() {
     return (
       // 창크기 최대일떄 6사이즈, 4칸 // 중간일떄 8사이즈, 3칸 // 작을때 24사이즈 1칸
       <Col lg={6} md={8} xs={24} key={index}>
-        <Card
-          hoverable={true}
-          cover={
-            <img
-              style={{ width: '100%', maxheight: '150px' }}
-              src={`http://localhost:5000/${product.images[0]}`}
-            />
-          }
-        >
+        {/*  이미지 슬라이더 컴포넌트 연결하기 */}
+        <Card hoverable={true} cover={<ImageSlider images={product.images} />}>
           <Meta title={product.title} description={`$${product.price}`} />
         </Card>
       </Col>
