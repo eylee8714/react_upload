@@ -59,7 +59,17 @@ router.post('/products', (req, res) => {
     // if(req.body.filters["continents"]) 또는 if(req.body.filters["price"]) 일것이다
     if (req.body.filters[key].length > 0) {
       // 필터가 하나이상 있을때
-      findArgs[key] = req.body.filters[key];
+      console.log('key', key); // key는 continents 클릭할때, continents 고, price 클릭하면 price이다.
+      if (key === 'price') {
+        // key가 price일때,
+        findArgs[key] = {
+          $gte: req.body.filters[key][0], // 몽고 DB : 이것보다 크거나 같을떄 | Greater than equal  | $gte:200
+          $lte: req.body.filters[key][1], // 몽고 DB : 이것보다 작거나 같을떄 | Less than equal  | $lte:249
+        };
+      } else {
+        // key가 continent 일때
+        findArgs[key] = req.body.filters[key];
+      }
     }
   }
 

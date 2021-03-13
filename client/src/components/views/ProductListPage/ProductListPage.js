@@ -97,11 +97,32 @@ function ProductListPage() {
     setSkip(0); // skip이 0이되었기 때문에 setSkip 을 다시 0으로 넣어주어야한다.
   };
 
+  const handlePrice = (value) => {
+    const data = price; // price 전체 data
+    let array = [];
+
+    for (let key in data) {
+      if (data[key]._id === parseInt(value, 10)) {
+        // value 는 filter값인데, 라디오버튼에서 선택해준 값이다. 혹시나 스트링이 들어오면, 숫자로 바꾸기위해 parseInt 적어주었다.
+        array = data[key].array; // array에 radio data에서 지정해줬던 array 값을 넣어준다.
+      }
+    }
+    console.log('array', array);
+    return array;
+  };
+
   const handleFilters = (filters, category) => {
     // 체크박스 필터라면, filter에는 check된 id 가 array에 담겨져있다.
     const newFilters = { ...Filters };
     newFilters[category] = filters;
+
+    if (category === 'price') {
+      let priceValues = handlePrice(filters);
+      newFilters[category] = priceValues; // 예를들면 newFilters[price] = [0,199] 이렇게 들어온다.
+    }
+    console.log('newFilters', newFilters);
     showFilteredResults(newFilters);
+    setFilters(newFilters); // 이걸적어주면 price필터와 continent 필터가 동시에 적용된다. setFilter를 안해주면 [] 빈값으로 바뀌기 때문에, 한개만 선택되고 나머지한개는 [] 로 바뀌게 되는것이다.
   };
 
   return (
