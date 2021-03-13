@@ -53,7 +53,20 @@ router.post('/products', (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 20; //req.body.limit 이 있다면? parseInt해서보내고 없으면 원하는숫자(20)을보낸다.
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
-  Product.find()
+  /*필터 추가하기 */
+  let findArgs = {};
+  for (let key in req.body.filters) {
+    // if(req.body.filters["continents"]) 또는 if(req.body.filters["price"]) 일것이다
+    if (req.body.filters[key].length > 0) {
+      // 필터가 하나이상 있을때
+      findArgs[key] = req.body.filters[key];
+    }
+  }
+
+  //findArgs 콘솔로그 찍어보기
+  console.log('findArgs', findArgs);
+
+  Product.find(findArgs)
     .populate('writer')
     .skip(skip) // mongoDB에 skip 을 지정한다.
     .limit(limit) // mongoDB에 limit 을 지정한다.
