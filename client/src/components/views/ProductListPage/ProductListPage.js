@@ -7,6 +7,7 @@ import ImageSlider from '../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
 import RadioBox from './Sections/RadioBox';
 import { continents, price } from './Sections/Datas';
+import SearchFeature from './Sections/SearchFeature';
 const { Meta } = Card;
 function ProductListPage() {
   const [Products, setProducts] = useState([]);
@@ -20,6 +21,8 @@ function ProductListPage() {
 
   // 체크박스 체크된 array, 가격대 array가 담길 필터 state
   const [Filters, setFilters] = useState({ continents: [], price: [] }); // continents:[1,2,3] 이런식으로 될것이다.
+
+  const [SearchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     // body를 이용해서 skip, limit 을 줘서 조건에 맞는 데이터 가져오도록 한다.
@@ -125,6 +128,11 @@ function ProductListPage() {
     setFilters(newFilters); // 이걸적어주면 price필터와 continent 필터가 동시에 적용된다. setFilter를 안해주면 [] 빈값으로 바뀌기 때문에, 한개만 선택되고 나머지한개는 [] 로 바뀌게 되는것이다.
   };
 
+  const updateSearchTerm = (newSearchTerm) => {
+    //newSearchTerm 은  SearchFeature.js 의  props.refreshFunction(event.currentTarget.value); 로 넘겨받은 값이다.
+    setSearchTerm(newSearchTerm);
+  };
+
   return (
     <div style={{ width: '75%', margin: '3rem auto' }}>
       <div style={{ textAlign: 'center' }}>
@@ -153,6 +161,18 @@ function ProductListPage() {
       </Row>
 
       {/* Search  */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          margin: '1rem auto',
+        }}
+      >
+        <SearchFeature refreshFunction={updateSearchTerm} />
+        {/* SearchFeature 컴포넌트에서 부모컴포넌트인 현재컴포넌트에 업데이트하기위해 prop 준다. 자식컴포넌트에서 넘겨준 값은 state에 넣는다. */}
+      </div>
+
+      {/* Cards  */}
       <Row gutter={[16, 16]}>{renderCards}</Row>
       <br />
       {/* PostSize >= Limit 일때만 더보기버튼 보여준다. (더이상가져올데이터 없으면 더보기버튼 없애기) */}
