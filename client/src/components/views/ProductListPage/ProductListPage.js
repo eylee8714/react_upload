@@ -5,7 +5,8 @@ import { Icon, Col, Card, Row } from 'antd';
 import { useState } from 'react';
 import ImageSlider from '../../utils/ImageSlider';
 import CheckBox from './Sections/CheckBox';
-import { continents } from './Sections/Datas';
+import RadioBox from './Sections/RadioBox';
+import { continents, price } from './Sections/Datas';
 const { Meta } = Card;
 function ProductListPage() {
   const [Products, setProducts] = useState([]);
@@ -112,13 +113,23 @@ function ProductListPage() {
       </div>
 
       {/* Filter  */}
-      {/* CheckBox */}
-      {/* handleFileters를 props에 줘서, CheckBox 컴포넌트에서 체크한 값을 부모컴포넌트(ProductListPage 컴포넌트)로 전달받는다 */}
 
-      <CheckBox
-        list={continents}
-        handleFilters={(filters) => handleFilters(filters, 'continents')}
-      />
+      <Row gutter={[16, 16]}>
+        <Col lg={12} xs={24}>
+          {/* CheckBox */}
+          {/* handleFileters를 props에 줘서, CheckBox 컴포넌트에서 체크한 값을 부모컴포넌트(ProductListPage 컴포넌트)로 전달받는다 */}
+          <CheckBox
+            list={continents}
+            handleFilters={(filters) => handleFilters(filters, 'continents')}
+          />
+        </Col>
+        <Col lg={12} xs={24}>
+          <RadioBox
+            list={price}
+            handleFilters={(filters) => handleFilters(filters, 'price')}
+          />
+        </Col>
+      </Row>
 
       {/* Search  */}
       <Row gutter={[16, 16]}>{renderCards}</Row>
