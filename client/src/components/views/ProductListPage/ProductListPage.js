@@ -43,7 +43,8 @@ function ProductListPage() {
     getProducts(body);
   }, []);
 
-  // 중복되는거라서 따로빼주었다.
+  /* 조건에 맞는 결과를 서버에서 가져올때 항상 써주는 함수이다. */
+  // 중복되는거라서 따로 함수로 빼주었다.
   const getProducts = (body) => {
     axios
       .post('/api/product/products', body) //
@@ -128,9 +129,19 @@ function ProductListPage() {
     setFilters(newFilters); // 이걸적어주면 price필터와 continent 필터가 동시에 적용된다. setFilter를 안해주면 [] 빈값으로 바뀌기 때문에, 한개만 선택되고 나머지한개는 [] 로 바뀌게 되는것이다.
   };
 
+  /* 검색하기 */
   const updateSearchTerm = (newSearchTerm) => {
     //newSearchTerm 은  SearchFeature.js 의  props.refreshFunction(event.currentTarget.value); 로 넘겨받은 값이다.
+
+    let body = {
+      skip: 0, // DB에서 처음부터 가져와야하기때문에 0을 넣어준다.
+      limit: Limit, // 지정해준값 8을 넣는다.
+      filters: Filters, // 체크박스, 라디오박스에서 눌러져있으면 그 조건도 해당하도록 넣어준다.
+      searchTerm: newSearchTerm,
+    };
+    setSkip(0);
     setSearchTerm(newSearchTerm);
+    getProducts(body);
   };
 
   return (

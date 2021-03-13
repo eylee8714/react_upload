@@ -52,6 +52,7 @@ router.post('/products', (req, res) => {
   // parseInt는 string인 경우 숫자로 바꿔준다. (형변환)
   let limit = req.body.limit ? parseInt(req.body.limit) : 20; //req.body.limit 이 있다면? parseInt해서보내고 없으면 원하는숫자(20)을보낸다.
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
+  let term = req.body.searchTerm;
 
   /*필터 추가하기 */
   let findArgs = {};
@@ -76,16 +77,32 @@ router.post('/products', (req, res) => {
   //findArgs 콘솔로그 찍어보기
   console.log('findArgs', findArgs);
 
-  Product.find(findArgs)
-    .populate('writer')
-    .skip(skip) // mongoDB에 skip 을 지정한다.
-    .limit(limit) // mongoDB에 limit 을 지정한다.
-    .exec((err, productInfo) => {
-      if (err) return res.status(400).json({ success: false, err });
-      return res
-        .status(200)
-        .json({ success: true, productInfo, postSize: productInfo.length }); // 데이터의 총갯수가되면 더보기버튼 없애기위해, postSize를 더해서 전송해준다.
-    });
+  if (term) {
+    // 검색어가 있다면,
+    Product.find(findArgs)
+      .find({ $text: { $search: term } }) // 검색어 있다면, 조건을 추가해주어야한다. 몽고DB 의 옵션을 이용했다.
+      .populate('writer')
+      .skip(skip) // mongoDB에 skip 을 지정한다.
+      .limit(limit) // mongoDB에 limit 을 지정한다.
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, productInfo, postSize: productInfo.length }); // 데이터의 총갯수가되면 더보기버튼 없애기위해, postSize를 더해서 전송해준다.
+      });
+  } else {
+    // 검색어가 없다면,
+    Product.find(findArgs)
+      .populate('writer')
+      .skip(skip) // mongoDB에 skip 을 지정한다.
+      .limit(limit) // mongoDB에 limit 을 지정한다.
+      .exec((err, productInfo) => {
+        if (err) return res.status(400).json({ success: false, err });
+        return res
+          .status(200)
+          .json({ success: true, productInfo, postSize: productInfo.length }); // 데이터의 총갯수가되면 더보기버튼 없애기위해, postSize를 더해서 전송해준다.
+      });
+  }
 });
 
 module.exports = router;

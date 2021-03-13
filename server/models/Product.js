@@ -39,18 +39,19 @@ const productSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-// productSchema.index(
-//   {
-//     title: 'text',
-//     description: 'text',
-//   },
-//   {
-//     weights: {
-//       name: 5,
-//       description: 1,
-//     },
-//   }
-// );
+// 검색시, 잘 걸려야하는 부분을 indexing해준다. title와 description의 내용중에서 검색어를 중점적으로 찾는다.
+productSchema.index(
+  {
+    title: 'text',
+    description: 'text',
+  },
+  {
+    weights: {
+      title: 5, // title을 5배의 비중으로 둬서 더 중점적으로 검색을 한다.
+      description: 1,
+    },
+  }
+);
 
 const Product = mongoose.model('Product', productSchema);
 
